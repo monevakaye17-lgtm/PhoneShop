@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PhoneHub - Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            padding: 20px;
+            color: #202438;
+        }
+        main {
+            max-width: 900px;
+            margin: auto;
+        }
+        .table-wrap {
+            overflow-x: auto;
+            background: white;
+            padding: 12px;
+            border-radius: 12px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 600px;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th { background: #eef0ff; }
+        a { color: #5147bd; }
+    </style>
+</head>
+<body>
+<main>
+    <h1>📋 Customer Orders</h1>
+    <p><a href="/">← Back to Phone Shop</a></p>
+
+    {% if orders %}
+    <div class="table-wrap">
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Phone</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Date</th>
+            </tr>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.customer_name }}</td>
+                <td>{{ order.product_name }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>₱{{ "%.2f"|format(order.total) }}</td>
+                <td>{{ order.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% else %}
+    <p>Wala pay orders. Balik sa shop ug sulayi pag-place og order.</p>
+    {% endif %}
+</main>
+</body>
+</html>
+

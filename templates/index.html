@@ -1,0 +1,82 @@
+        .stock { color: #657087; font-size: 14px; }
+        .card form { display: grid; gap: 10px; margin-top: 15px; }
+        .message {
+            background: #e5f8ed;
+            color: #17683b;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+        }
+
+        .empty { background: white; padding: 20px; border-radius: 12px; }
+
+        footer {
+            text-align: center;
+            color: #74798c;
+            padding: 28px;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <h1>📱 PhoneHub</h1>
+    <p>Your simple online phone shop</p>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/orders">View Orders</a>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <h2>Find Your Next Phone.</h2>
+        <p>Explore our phones and place a sample order today.</p>
+    </section>
+
+    {% with messages = get_flashed_messages() %}
+      {% for message in messages %}
+        <div class="message">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <form class="search" action="/" method="get">
+        <input name="search" placeholder="Search phones..."
+               value="{{ search }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Our Products</h2>
+
+    <section class="products">
+        {% for product in products %}
+        <article class="card">
+            <div class="phone">📱</div>
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description }}</p>
+            <p class="price">₱{{ "{:,.2f}".format(product.price) }}</p>
+            <p class="stock">Stock: {{ product.stock }}</p>
+
+            {% if product.stock > 0 %}
+            <form action="/order/{{ product.id }}" method="post">
+                <input name="customer_name"
+                       placeholder="Your name" maxlength="100" required>
+                <input name="quantity" type="number" value="1"
+                       min="1" max="100" required>
+                <button type="submit">Place Order</button>
+            </form>
+            {% else %}
+            <p>Out of stock</p>
+            {% endif %}
+        </article>
+        {% else %}
+        <p class="empty">No matching phones found.</p>
+        {% endfor %}
+    </section>
+</main>
+
+<footer>
+    PhoneHub &copy; 2026 | Student Website Project
+</footer>
+</body>
+</html>
